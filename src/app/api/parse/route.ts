@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { extractText } from 'unpdf';
-// Make sure this path matches wherever you put the lib folder!
-import { supabase } from '@/lib/supabase'; 
+// Import the server-side Supabase client to access secure auth cookies
+import { createClient } from '@/lib/supabase/server'; 
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     
     CRITICAL DESIGN INSTRUCTION:
     The user has requested the following visual theme: "${themePrompt}".
-    Generate a highly readable, aesthetic color palette of HEX CODES that perfectly matches this description.
+    Generate a highly readable, aesthetic color palette of HEX CODES that perfectly matches this description. Ensure there is strong contrast between the 'text' and 'background' colors.
 
     You MUST return the data using this exact JSON schema:
     {
@@ -54,12 +54,17 @@ export async function POST(req: NextRequest) {
     const responseText = result.response.text();
     const structuredData = JSON.parse(responseText);
 
-    // 3. Save to Supabase
-    const { error: dbError } = await supabase
+    // 3. Get the logged-in user securely
+    const supabaseServer = await createClient();
+    const { data: { user } } = await supabaseServer.auth.getUser();
+
+    // 4. Save to Supabase (linking to user_id if they are logged in)
+    const { error: dbError } = await supabaseServer
       .from('portfolios')
       .insert({ 
         username: username, 
-        data: structuredData 
+        data: structuredData,
+        user_id: user?.id || null // This makes it show up on their Dashboard
       });
 
     if (dbError) {
@@ -69,7 +74,7 @@ export async function POST(req: NextRequest) {
       throw dbError;
     }
 
-    // 4. Return the redirect URL
+    // 5. Return the redirect URL
     return NextResponse.json({ success: true, redirectUrl: `/${username}` }, { status: 200 });
 
   } catch (error) {

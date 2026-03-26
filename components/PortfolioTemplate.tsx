@@ -46,6 +46,41 @@ export default function PortfolioTemplate({ data }: { data: ResumeData }) {
           </div>
         </section>
 
+        {/* Work Experience Section */}
+        <section>
+          <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2" style={{ color: themeColors.primary }}><Briefcase /> Work Experience</h2>
+          <div className="space-y-6">
+            {(data.experience || []).map((exp, i) => (
+              <div 
+                key={i} 
+                className="p-6 rounded-xl border shadow-sm space-y-4 transition-transform hover:-translate-y-1"
+                style={{ backgroundColor: themeColors.cardBackground, borderColor: themeColors.cardBorder }}
+              >
+                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-2">
+                  <div>
+                    <h3 className="text-xl font-bold">{exp.role}</h3>
+                    <p className="text-lg font-medium" style={{ color: themeColors.primary }}>{exp.company}</p>
+                  </div>
+                  <span 
+                    className="text-sm px-3 py-1 rounded-full border" 
+                    style={{ borderColor: themeColors.cardBorder, color: themeColors.mutedText }}
+                  >
+                    {exp.duration}
+                  </span>
+                </div>
+                
+                <ul className="list-disc list-inside space-y-2">
+                  {(exp.achievements || []).map((achievement, j) => (
+                    <li key={j} className="leading-relaxed" style={{ color: themeColors.mutedText }}>
+                      {achievement}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Projects Section */}
         <section>
           <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2" style={{ color: themeColors.primary }}><Code /> Featured Projects</h2>
