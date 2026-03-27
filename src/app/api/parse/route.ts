@@ -41,7 +41,6 @@ export async function POST(req: NextRequest) {
       "skills": ["string"],
       "projects": [{ "title": "string", "description": "string", "githubUrl": "string", "technologies": ["string"] }],
       "experience": [{ "role": "string", "company": "string", "duration": "string", "achievements": ["string"] }],
-      "coverLetter": "string",
       "themeColors": {
         "background": "#HexCode", "text": "#HexCode", "primary": "#HexCode", "mutedText": "#HexCode", "cardBackground": "#HexCode", "cardBorder": "#HexCode"
       }

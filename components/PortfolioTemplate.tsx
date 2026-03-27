@@ -104,8 +104,10 @@ export default function PortfolioTemplate({ data }: { data: ResumeData }) {
             ))}
           </div>
         </section>
+        
 
         {/* Cover Letter */}
+        {/*}
         <section 
           className="p-8 rounded-xl border shadow-sm"
           style={{ backgroundColor: themeColors.cardBackground, borderColor: themeColors.cardBorder }}
@@ -115,8 +117,9 @@ export default function PortfolioTemplate({ data }: { data: ResumeData }) {
              {data.coverLetter}
            </div>
         </section>
-
+*/}
       </div>
     </div>
+    
   );
 }

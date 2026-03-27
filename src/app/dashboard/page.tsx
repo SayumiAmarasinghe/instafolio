@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { ExternalLink, PlusCircle } from 'lucide-react';
+import { ExternalLink, PlusCircle, FileText } from 'lucide-react';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -54,6 +54,14 @@ export default async function DashboardPage() {
                 >
                   <ExternalLink size={16} /> View Live Site
                 </Link>
+                {/*Cover Letter Button */}
+                <Link 
+                    href={`/dashboard/cover-letter/${site.username}`}
+                    className="flex-1 flex items-center justify-center gap-2 bg-blue-50 text-blue-600 border border-blue-200 py-2 rounded-lg hover:bg-blue-100 font-medium text-sm transition-colors"
+                  >
+                    <FileText size={16} /> Write Cover Letter
+                  </Link>
+
               </div>
             ))}
           </div>
