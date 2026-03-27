@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ExternalLink, PlusCircle, FileText } from 'lucide-react';
+import DeleteButton from '@/components/DeleteButton';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -24,6 +25,8 @@ export default async function DashboardPage() {
   return (
     <main className="min-h-screen bg-slate-50 p-8 md:p-24">
       <div className="max-w-5xl mx-auto space-y-8">
+        
+        {/* Header */}
         <div className="flex justify-between items-center">
           <h1 className="text-4xl font-bold text-slate-900">Your Dashboard</h1>
           <Link href="/" className="flex items-center gap-2 bg-purple-600 text-white px-5 py-2.5 rounded-xl hover:bg-purple-700 transition-all font-medium">
@@ -31,36 +34,49 @@ export default async function DashboardPage() {
           </Link>
         </div>
 
+        {/* Empty State vs. Portfolio Grid */}
         {portfolios?.length === 0 ? (
-          <div className="text-center bg-white p-12 rounded-2xl border border-slate-200">
+          <div className="text-center bg-white p-12 rounded-2xl border border-slate-200 shadow-sm">
             <p className="text-slate-500 mb-4">You haven't generated any portfolios yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {portfolios?.map((site) => (
-              <div key={site.username} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all space-y-4">
-                <div className="flex justify-between items-start">
+              <div key={site.username} className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col h-full min-h-[180px]">
+                
+                {/* Card Top: Title, URL, Theme Dot, and Delete Button */}
+                <div className="flex justify-between items-start mb-6">
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900">{site.data?.name || 'Untitled'}</h3>
+                    <h3 className="font-bold text-lg text-slate-900 line-clamp-1">{site.data?.name || 'Untitled'}</h3>
                     <p className="text-sm text-slate-500">/{site.username}</p>
                   </div>
-                  <div className="h-4 w-4 rounded-full" style={{ backgroundColor: site.data?.themeColors?.primary || '#3b82f6' }} />
+                  
+                  <div className="flex items-center gap-3">
+                    <div 
+                      className="h-4 w-4 rounded-full shadow-sm border border-slate-200" 
+                      style={{ backgroundColor: site.data?.themeColors?.primary || '#3b82f6' }} 
+                    />
+                    <DeleteButton username={site.username} />
+                  </div>
                 </div>
                 
-                <Link 
-                  href={`/${site.username}`} 
-                  target="_blank"
-                  className="flex items-center justify-center gap-2 w-full bg-slate-100 text-slate-700 py-2 rounded-lg hover:bg-slate-200 font-medium text-sm"
-                >
-                  <ExternalLink size={16} /> View Live Site
-                </Link>
-                {/*Cover Letter Button */}
-                <Link 
+                {/* Card Bottom: Action Buttons Side-by-Side */}
+                <div className="flex gap-3 mt-auto pt-4 border-t border-slate-100">
+                  <Link 
+                    href={`/${site.username}`} 
+                    target="_blank"
+                    className="flex-1 flex items-center justify-center gap-2 bg-slate-100 text-slate-700 py-2 rounded-lg hover:bg-slate-200 font-medium text-sm transition-colors"
+                  >
+                    <ExternalLink size={16} /> View Site
+                  </Link>
+                  
+                  <Link 
                     href={`/dashboard/cover-letter/${site.username}`}
                     className="flex-1 flex items-center justify-center gap-2 bg-purple-50 text-purple-600 border border-purple-200 py-2 rounded-lg hover:bg-purple-100 font-medium text-sm transition-colors"
                   >
-                    <FileText size={16} /> Write Cover Letter
+                    <FileText size={16} /> Cover Letter
                   </Link>
+                </div>
 
               </div>
             ))}
