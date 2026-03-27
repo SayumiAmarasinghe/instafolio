@@ -27,7 +27,7 @@ export default async function Navbar() {
             <>
               <Link 
                 href="/dashboard" 
-                className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-purple-600 transition-colors"
               >
                 <LayoutDashboard size={16} /> Dashboard
               </Link>

@@ -48,7 +48,7 @@ export default function CoverLetterGenerator() {
     <main className="min-h-screen bg-slate-50 p-8 md:p-24">
       <div className="max-w-6xl mx-auto space-y-8">
         
-        <Link href="/dashboard" className="flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors w-fit">
+        <Link href="/dashboard" className="flex items-center gap-2 text-slate-500 hover:text-purple-600 transition-colors w-fit">
           <ArrowLeft size={16} /> Back to Dashboard
         </Link>
 

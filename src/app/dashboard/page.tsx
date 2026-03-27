@@ -57,7 +57,7 @@ export default async function DashboardPage() {
                 {/*Cover Letter Button */}
                 <Link 
                     href={`/dashboard/cover-letter/${site.username}`}
-                    className="flex-1 flex items-center justify-center gap-2 bg-blue-50 text-blue-600 border border-blue-200 py-2 rounded-lg hover:bg-blue-100 font-medium text-sm transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 bg-purple-50 text-purple-600 border border-purple-200 py-2 rounded-lg hover:bg-purple-100 font-medium text-sm transition-colors"
                   >
                     <FileText size={16} /> Write Cover Letter
                   </Link>
