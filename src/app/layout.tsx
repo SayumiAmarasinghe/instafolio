@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import {Analytics} from "@vercel/analytics/next";
+import { GoogleAnalytics } from '@next/third-parties/google'
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,10 +29,13 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
+
       <body className="min-h-full flex flex-col"
          suppressHydrationWarning={true}>
           <Navbar />
-          {children}</body>
+          {children}
+          <GoogleAnalytics gaId="G-8017758G80" />
+          </body>
     </html>
   );
 }
