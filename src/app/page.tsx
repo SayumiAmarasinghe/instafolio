@@ -9,27 +9,27 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [portfolioData, setPortfolioData] = useState<ResumeData | null>(null);
   
-  // 1. Change state to a text string
   const [themePrompt, setThemePrompt] = useState('');
-
   const [username, setUsername] = useState('');
 
+  // 1. New Handler: Intercept the click BEFORE the file picker opens
+  const handleInputClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (!username) {
+      e.preventDefault(); // This stops the file selection window from opening!
+      alert("Please claim your unique URL (username) first!");
+    }
+  };
+
+  // 2. Existing Handler: Only runs if they actually selected a file
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setLoading(true);
-    if (!username) {
-      alert("Please enter a username first!");
-      e.target.value = '';
-      return;
-  }
-    setLoading(true);
     const formData = new FormData();
     formData.append('resume', file);
-    formData.append('username', username.toLowerCase().replace(/[^a-z0-9]/g, '')); // Sanitize to URL-safe format
+    formData.append('username', username.toLowerCase().replace(/[^a-z0-9]/g, ''));
     
-    // 2. Append the user's typed prompt, or a default if they leave it blank
     formData.append('themePrompt', themePrompt || 'Clean, modern, and professional light mode');
 
     try {
@@ -50,7 +50,7 @@ export default function Home() {
       }
 
       setPortfolioData(data);
-     if (data.success && data.redirectUrl) {
+      if (data.success && data.redirectUrl) {
         window.location.href = data.redirectUrl;
       }
 
@@ -59,6 +59,7 @@ export default function Home() {
       alert(error.message || "Failed to parse resume. Please try again.");
     } finally {
       setLoading(false);
+      e.target.value = ''; // Clean up the input so they can upload again if needed
     }
   };
 
@@ -76,9 +77,7 @@ export default function Home() {
           Upload your static PDF resume. We'll extract your data and generate a beautiful, hosted portfolio in seconds.
         </p>
 
-        {/* 3. The Custom Theme Text Input */}
         <div className="mt-8 max-w-md mx-auto space-y-4 text-left">
-          
           {/* URL Claim Input */}
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-2">
@@ -97,9 +96,8 @@ export default function Home() {
               />
             </div>
           </div>
-          </div>
+        </div>
           
-          {/* ... Your existing Theme Prompt input goes here ... */}
         <div className="mt-8 max-w-md mx-auto relative">
           <label className="block text-sm font-semibold text-slate-700 mb-2 text-left">
             Describe your dream website theme (Optional)
@@ -129,7 +127,14 @@ export default function Home() {
                 <p className="text-xl font-semibold text-slate-700">Click to upload your Resume PDF</p>
                 <p className="text-sm text-slate-500">Max file size 5MB.</p>
               </div>
-              <input type="file" accept="application/pdf" className="hidden" onChange={handleFileUpload} />
+              {/* 3. Add the onClick handler to the input */}
+              <input 
+                type="file" 
+                accept="application/pdf" 
+                className="hidden" 
+                onClick={handleInputClick}
+                onChange={handleFileUpload} 
+              />
             </label>
           )}
         </div>
