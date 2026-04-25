@@ -20,9 +20,9 @@ export default function Home() {
 
     setLoading(true);
     if (!username) {
-    alert("Please enter a username first!");
-    e.target.value = '';
-    return;
+      alert("Please enter a username first!");
+      e.target.value = '';
+      return;
   }
     setLoading(true);
     const formData = new FormData();
