@@ -21,8 +21,10 @@ export default function Home() {
     setLoading(true);
     if (!username) {
     alert("Please enter a username first!");
+    e.target.value = '';
     return;
   }
+    setLoading(true);
     const formData = new FormData();
     formData.append('resume', file);
     formData.append('username', username.toLowerCase().replace(/[^a-z0-9]/g, '')); // Sanitize to URL-safe format
