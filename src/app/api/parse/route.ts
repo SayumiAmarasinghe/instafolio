@@ -35,15 +35,53 @@ export async function POST(req: NextRequest) {
     The user has requested the following visual theme: "${themePrompt}".
     Generate a highly readable, aesthetic color palette of HEX CODES that perfectly matches this description. Ensure there is strong contrast between the 'text' and 'background' colors.
 
-    You MUST return the data using this exact JSON schema:
+    Parse the following resume text into this EXACT JSON structure. 
+    Extract the standard sections into their respective arrays. 
+    If you find ANY other unique sections (like Awards, Certifications, Leadership, Publications, Volunteering, etc.), put them in the "additionalSections" array.
+
     {
-      "name": "string", "email": "string", "linkedin": "string", "github": "string", "about": "string",
-      "skills": ["string"],
-      "projects": [{ "title": "string", "description": "string", "githubUrl": "string", "technologies": ["string"] }],
-      "experience": [{ "role": "string", "company": "string", "duration": "string", "achievements": ["string"] }],
+      "name": "string (Candidate's full name)",
+      "about": "string (A professional summary or objective, written in first person)",
+      "email": "string (Optional)",
+      "github": "string (Optional)",
+      "linkedin": "string (Optional)",
+      "skills": ["string (Individual skills)"],
+      "experience": [
+        {
+          "company": "string",
+          "role": "string",
+          "duration": "string",
+          "achievements": ["string (Bullet points of their accomplishments)"]
+        }
+      ],
+      "projects": [
+        {
+          "title": "string",
+          "description": "string",
+          "technologies": ["string"]
+        }
+      ],
       "themeColors": {
-        "background": "#HexCode", "text": "#HexCode", "primary": "#HexCode", "mutedText": "#HexCode", "cardBackground": "#HexCode", "cardBorder": "#HexCode"
-      }
+        "background": "string (HEX code)",
+        "text": "string (HEX code)",
+        "primary": "string (HEX code for accents and buttons)",
+        "mutedText": "string (HEX code)",
+        "cardBackground": "string (HEX code)",
+        "cardBorder": "string (HEX code)"
+      },
+      "additionalSections": [
+        {
+          "sectionTitle": "string (The extracted header, e.g., 'Certifications')",
+          "items": [
+            {
+              "title": "string (Optional)",
+              "subtitle": "string (Optional)",
+              "description": "string (Optional)",
+              "bullets": ["string (Optional array of bullet points)"] 
+            }
+          ]
+        }
+      ]
     }
     
     Resume text:

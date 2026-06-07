@@ -34,4 +34,14 @@ export interface ResumeData {
   coverLetter: string;
   // 2. Replace the strict 'minimal' | 'cyber' string with our dynamic color object
   themeColors: ThemeColors; 
+  additionalSections?: {
+    sectionTitle: string;
+    items: {
+      title?: string;       // e.g., "Eagle Scout" or "AWS Cloud Practitioner"
+      subtitle?: string;    // e.g., "Boy Scouts of America" or "2024"
+      description?: string; // e.g., "Earned the highest rank..."
+      bullets?: string[];   // Any bullet points under this item
+    }[];
+  }[];
+
 }
